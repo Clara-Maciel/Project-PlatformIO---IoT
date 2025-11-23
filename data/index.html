@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitor DHT - ESP8266</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      text-align: center;
+      padding: 30px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: auto;
+      width: 280px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    h2 {
+      color: #444;
+    }
+    .valor {
+      font-size: 2.5em;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Monitor de Clima</h1>
+
+  <div class="card">
+    <h2>Temperatura</h2>
+    <div class="valor" id="temp">-- °C</div>
+
+    <h2>Umidade</h2>
+    <div class="valor" id="umid">-- %</div>
+  </div>
+
+  <script>
+    async function atualizar() {
+      try {
+        const r = await fetch('/dados');
+        const dados = await r.json();
+
+        document.getElementById('temp').textContent = dados.temperatura + " °C";
+        document.getElementById('umid').textContent = dados.umidade + " %";
+
+      } catch (e) {
+        console.log("Erro:", e);
+      }
+    }
+
+    atualizar();
+    setInterval(atualizar, 3000);
+  </script>
+
+</body>
+</html>
